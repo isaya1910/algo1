@@ -61,6 +61,25 @@ func TestDelete(t *testing.T) {
 	assert.Nil(t, testObject.tail)
 }
 
+func TestDelete2(t *testing.T) {
+	testObject := LinkedList{}
+
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 2})
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 1})
+	testObject.AddInTail(Node{nil, 4})
+
+	testObject.Delete(1, true)
+
+	assert.Equal(t, testObject.Count(), 2)
+	assert.Equal(t, testObject.head.value, 2)
+	assert.Equal(t, testObject.tail.value, 4)
+}
+
 func TestFind(t *testing.T) {
 	testObject := LinkedList{}
 	testObject.AddInTail(Node{nil, 1})
@@ -76,4 +95,6 @@ func TestFind(t *testing.T) {
 	testObject.AddInTail(Node{nil, 1})
 	actualNodes := testObject.FindAll(1)
 	assert.Equal(t, len(actualNodes), 2)
+	testObject.Clean()
+	assert.Equal(t, testObject.Count(), 0)
 }

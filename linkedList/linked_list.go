@@ -58,28 +58,33 @@ func (l *LinkedList) FindAll(n int) []Node {
 }
 
 func (l *LinkedList) Delete(n int, all bool) {
-	iteratorNode := l.head
+	current := l.head
+	previous := l.head
 
-	for iteratorNode != nil && iteratorNode.value == n {
-		l.head = iteratorNode.next
-		iteratorNode = iteratorNode.next
-		if !all {
-			l.UpdateTail()
-			return
-		}
-	}
-
-	for iteratorNode != nil && iteratorNode.next != nil {
-		if iteratorNode.next.value == n {
-			nodeToDelete := iteratorNode.next
-			next := nodeToDelete.next
-			iteratorNode.next = next
+	for current != nil {
+		if current.value == n && current == l.head {
+			current = current.next
+			l.head = current
+			previous = current
 			if !all {
 				l.UpdateTail()
 				return
 			}
+			continue
 		}
-		iteratorNode = iteratorNode.next
+		if current.value == n {
+			current = current.next
+			previous.next = current
+			if !all {
+				l.UpdateTail()
+				return
+			}
+			continue
+		}
+		if current.value != n {
+			previous = current
+			current = current.next
+		}
 	}
 	l.UpdateTail()
 }
