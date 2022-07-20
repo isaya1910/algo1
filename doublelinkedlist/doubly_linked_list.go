@@ -66,7 +66,10 @@ func (l *LinkedList2) Delete(n int, all bool) {
 	current := l.head
 	isFind := false
 	for current != nil {
-		if current.value == n && (all || !isFind) {
+		if !all && isFind {
+			return
+		}
+		if current.value == n {
 			prev := current.prev
 			next := current.next
 			if prev != nil && next != nil {
