@@ -93,11 +93,9 @@ func (l *LinkedList2) Delete(n int, all bool) {
 				return
 			}
 			current.prev = temp.prev
-			if current.next == nil {
-				l.tail = current
-				return
-			}
-			continue
+		}
+		if current.next == nil {
+			l.tail = current
 		}
 		if current.value != n {
 			current = current.next

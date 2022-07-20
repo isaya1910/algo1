@@ -78,6 +78,12 @@ func TestDelete2(t *testing.T) {
 	assert.Equal(t, testObject.Count(), 2)
 	assert.Equal(t, testObject.head.value, 2)
 	assert.Equal(t, testObject.tail.value, 4)
+	testObject.AddInTail(Node{nil, nil, 4})
+
+	testObject.Delete(4, true)
+	assert.Equal(t, 1, testObject.Count())
+	assert.Equal(t, 2, testObject.head.value)
+	assert.Equal(t, 2, testObject.tail.value)
 }
 
 func TestFind(t *testing.T) {
