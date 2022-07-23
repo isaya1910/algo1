@@ -30,13 +30,14 @@ func TestDynArray_Remove(t *testing.T) {
 	require.Equal(t, 31, testDynArray.count)
 }
 
-func TestDynArrayCappacyty(t *testing.T) {
+func TestDynArrayCapacity(t *testing.T) {
 	var testDynArray DynArray[int]
 	testDynArray.Init()
 	require.Equal(t, 16, testDynArray.capacity)
 	for i := 0; i < 17; i++ {
-		testDynArray.Append(i)
+		testDynArray.Insert(1, testDynArray.count)
 	}
+	require.Equal(t, 17, testDynArray.count)
 	require.Equal(t, 32, testDynArray.capacity)
 }
 
