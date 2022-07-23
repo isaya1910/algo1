@@ -21,6 +21,13 @@ func TestDynArray_Remove(t *testing.T) {
 
 	require.Equal(t, 42, testDynArray.capacity)
 
+	require.Equal(t, 30, testDynArray.count)
+
+	testDynArray.Insert(10, 30)
+	actual, err := testDynArray.GetItem(30)
+	require.NoError(t, err)
+	require.Equal(t, 10, actual)
+	require.Equal(t, 31, testDynArray.count)
 }
 
 func TestDynArray_Insert(t *testing.T) {
