@@ -39,6 +39,13 @@ func TestDynArrayCapacity(t *testing.T) {
 	}
 	require.Equal(t, 17, testDynArray.count)
 	require.Equal(t, 32, testDynArray.capacity)
+
+	err := testDynArray.Insert(48, testDynArray.count)
+	require.NoError(t, err)
+
+	actual, err := testDynArray.GetItem(testDynArray.count - 1)
+	require.NoError(t, err)
+	require.Equal(t, 48, actual)
 }
 
 func TestDynArray_Insert(t *testing.T) {

@@ -77,7 +77,7 @@ func (da *DynArray[T]) Append(itm T) {
 
 func (da *DynArray[T]) GetItem(index int) (T, error) {
 	var result T
-	if index >= len(da.array) || index < 0 {
+	if index >= da.count || index < 0 {
 		return result, fmt.Errorf("bad index '%d'", index)
 	}
 	result = da.array[index]
