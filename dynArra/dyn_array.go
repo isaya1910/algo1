@@ -56,7 +56,7 @@ func (da *DynArray[T]) Remove(index int) error {
 		return nil
 	}
 	if capacityPercent < 0.5 && newCapacity < 16 {
-		da.capacity = 1
+		da.capacity = 16
 		return nil
 	}
 	return nil
