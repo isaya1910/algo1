@@ -10,7 +10,7 @@ func TestDynArray_Remove(t *testing.T) {
 	testDynArray.Init()
 
 	for i := 0; i < 33; i++ {
-		testDynArray.Append(i)
+		testDynArray.Insert(i, 0)
 	}
 
 	require.Equal(t, 64, testDynArray.capacity)

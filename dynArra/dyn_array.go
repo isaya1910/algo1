@@ -27,9 +27,11 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 	if index >= len(da.array) || index < 0 {
 		return fmt.Errorf("bad index '%d'", index)
 	}
+
 	if da.count == da.capacity {
 		da.MakeArray(2 * da.capacity)
 	}
+	da.count++
 	for i := da.count - 1; i > index; i-- {
 		da.array[i] = da.array[i-1]
 	}
