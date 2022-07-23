@@ -1,6 +1,7 @@
 package dynArra
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -46,20 +47,22 @@ func TestDynArrayCapacity(t *testing.T) {
 	actual, err := testDynArray.GetItem(testDynArray.count - 1)
 	require.NoError(t, err)
 	require.Equal(t, 48, actual)
+
+	fmt.Println(testDynArray)
 }
 
 func TestDynArray_Insert(t *testing.T) {
 	var testDynArray DynArray[int]
 	testDynArray.Init()
 
-	for i := 0; i < 32; i++ {
+	for i := 1; i <= 32; i++ {
 		testDynArray.Append(i)
 	}
 
 	actual, err := testDynArray.GetItem(0)
 	require.NoError(t, err)
 
-	require.Equal(t, 0, actual)
+	require.Equal(t, 1, actual)
 
 	require.Equal(t, 32, testDynArray.capacity)
 
@@ -70,5 +73,9 @@ func TestDynArray_Insert(t *testing.T) {
 	require.Equal(t, 44, actual)
 
 	require.Equal(t, 64, testDynArray.capacity)
+	actual, err = testDynArray.GetItem(testDynArray.count - 1)
+	require.NoError(t, err)
+	fmt.Println(testDynArray)
+	require.Equal(t, 32, actual)
 
 }

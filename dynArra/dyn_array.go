@@ -35,12 +35,11 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 	if da.count == da.capacity {
 		da.MakeArray(2 * da.capacity)
 	}
-
+	da.count++
 	for i := da.count - 1; i > index; i-- {
 		da.array[i] = da.array[i-1]
 	}
 	da.array[index] = itm
-	da.count++
 	return nil
 }
 
