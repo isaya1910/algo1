@@ -45,7 +45,7 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 }
 
 func (da *DynArray[T]) Remove(index int) error {
-	if index >= len(da.array) || index < 0 {
+	if index >= da.count || index < 0 {
 		return fmt.Errorf("bad index '%d'", index)
 	}
 	for i := index; i < da.count-1; i++ {
