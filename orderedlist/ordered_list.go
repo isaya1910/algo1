@@ -165,6 +165,7 @@ func (l *OrderedList[T]) Delete(n T) {
 			if next == nil {
 				l.tail = prev
 			}
+			return
 		}
 		current = current.next
 	}
