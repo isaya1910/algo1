@@ -137,6 +137,7 @@ func (l *OrderedList[T]) Find(n T) (Node[T], error) {
 		if !l._ascending && it.value < n {
 			break
 		}
+		it = it.next
 	}
 	return Node[T]{value: n, next: nil, prev: nil}, fmt.Errorf("item not found")
 }
