@@ -42,4 +42,10 @@ func TestOrderedList_Add_Des(t *testing.T) {
 	require.Equal(t, 1, testObject.tail.value)
 	require.Equal(t, 5, testObject.head.next.value)
 	require.Equal(t, 5, testObject.tail.prev.value)
+
+	actual, err := testObject.Find(-3)
+	require.Error(t, err)
+	actual, err = testObject.Find(7)
+	require.Equal(t, 7, actual.value)
+	require.NoError(t, err)
 }
