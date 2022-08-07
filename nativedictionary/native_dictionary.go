@@ -25,11 +25,12 @@ func (nd *NativeDictionary[T]) HashFun(value string) int {
 }
 
 func (nd *NativeDictionary[T]) IsKey(key string) bool {
-	index := nd.HashFun(key)
-	if nd.slots[index] == "" {
-		return false
+	for i := 0; i < nd.size; i++ {
+		if nd.slots[i] == key {
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 func (nd *NativeDictionary[T]) Get(key string) (T, error) {
