@@ -36,7 +36,7 @@ func (nd *NativeDictionary[T]) IsKey(key string) bool {
 func (nd *NativeDictionary[T]) Get(key string) (T, error) {
 	var result T
 	index := nd.HashFun(key)
-	if nd.slots[index] == "" {
+	if !nd.IsKey(key) {
 		return result, fmt.Errorf("item not found")
 	}
 	result = nd.values[index]
