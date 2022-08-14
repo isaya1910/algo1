@@ -6,7 +6,7 @@ import (
 )
 
 func TestPowerSet_Put(t *testing.T) {
-	testObject := Init[int](10)
+	testObject := Init[int]()
 	testObject.Put(1)
 	require.Equal(t, 1, testObject.Size())
 	require.True(t, testObject.Get(1))
@@ -21,13 +21,13 @@ func TestPowerSet_Put(t *testing.T) {
 }
 
 func TestPowerSet_Intersection(t *testing.T) {
-	testObject := Init[int](10)
+	testObject := Init[int]()
 
 	testObject.Put(1)
 	testObject.Put(2)
 	testObject.Put(3)
 
-	set := Init[int](10)
+	set := Init[int]()
 	set.Put(2)
 	set.Put(3)
 	set.Put(4)
@@ -47,7 +47,7 @@ func TestPowerSet_Intersection(t *testing.T) {
 
 	require.False(t, testObject.IsSubset(set))
 
-	set2 := Init[int](10)
+	set2 := Init[int]()
 	set2.Put(1)
 	set2.Put(2)
 

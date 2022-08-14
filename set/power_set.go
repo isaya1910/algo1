@@ -8,7 +8,7 @@ type PowerSet[T constraints.Ordered] struct {
 	dict map[T]T
 }
 
-func Init[T constraints.Ordered](sz int) PowerSet[T] {
+func Init[T constraints.Ordered]() PowerSet[T] {
 	powerSet := PowerSet[T]{}
 	powerSet.dict = make(map[T]T)
 	return powerSet
@@ -38,7 +38,6 @@ func (p *PowerSet[T]) Remove(value T) bool {
 }
 
 func (p *PowerSet[T]) Intersection(set2 PowerSet[T]) PowerSet[T] {
-	// пересечение текущего множества и set2
 	var result PowerSet[T]
 	result.dict = make(map[T]T)
 	for _, key := range p.dict {
@@ -50,7 +49,6 @@ func (p *PowerSet[T]) Intersection(set2 PowerSet[T]) PowerSet[T] {
 }
 
 func (p *PowerSet[T]) Union(set2 PowerSet[T]) PowerSet[T] {
-	// объединение текущего множества и set2
 	var result PowerSet[T]
 	result.dict = make(map[T]T)
 	for _, key := range p.dict {
