@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -22,8 +23,7 @@ type Point struct {
 }
 
 type Movement struct {
-	x int32
-	y int32
+	distance int32
 }
 
 type Angle int32
@@ -42,26 +42,15 @@ type Move struct {
 	Movement Movement
 }
 
-func ParseMove(pointsText string) (*Move, error) {
-	movementText := strings.Split(pointsText, ",")
-	if len(movementText) != 2 {
-		return nil, errors.New("parse error")
-	}
-
-	xValue, err := strconv.Atoi(movementText[0])
-	if err != nil {
-		return nil, err
-	}
-
-	yValue, err := strconv.Atoi(movementText[1])
+func ParseMove(distanceText string) (*Move, error) {
+	distance, err := strconv.Atoi(distanceText)
 	if err != nil {
 		return nil, err
 	}
 
 	return &Move{
 		Movement: Movement{
-			x: int32(xValue),
-			y: int32(yValue),
+			distance: int32(distance),
 		},
 	}, nil
 }
@@ -120,9 +109,10 @@ type SweeperRobot struct {
 }
 
 func (s *SweeperRobot) Move(move Move) {
+	angleRads := float64(s.angle) * (math.Pi / 180.0)
 	s.currentLocation = Point{
-		x: s.currentLocation.x + move.Movement.x,
-		y: s.currentLocation.y + move.Movement.y,
+		x: s.currentLocation.x + int32(float64(move.Movement.distance)*math.Cos(angleRads)),
+		y: s.currentLocation.y + int32(float64(move.Movement.distance)*math.Sin(angleRads)),
 	}
 	fmt.Println(s.currentLocation)
 }
@@ -146,15 +136,12 @@ func (s *SweeperRobot) Stop() {
 	fmt.Println("Work stopped")
 }
 
-func main() {
-	robot := SweeperRobot{
-		currentLocation: Point{},
-		state:           Water{},
-		angle:           0,
-	}
+type RobotProgram struct {
+	Robot *SweeperRobot
+}
 
-	commands := []string{"move 100,100", "turn -90", "set soap", "move 50,-50", "stop"}
-
+func (r RobotProgram) runCommands(commands []string) {
+	robot := *r.Robot
 	for _, command := range commands {
 		parsedCommand := strings.Split(command, " ")
 		if len(parsedCommand) == 0 {
@@ -198,5 +185,19 @@ func main() {
 		}
 
 	}
+}
+
+func main() {
+	robot := &SweeperRobot{
+		currentLocation: Point{},
+		state:           Water{},
+		angle:           0,
+	}
+	commands := []string{"move 100", "turn -90", "set soap", "move 120", "stop"}
+	program := RobotProgram{
+		Robot: robot,
+	}
+
+	program.runCommands(commands)
 
 }
