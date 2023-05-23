@@ -1,10 +1,7 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"math"
-	"strconv"
 	"strings"
 )
 
@@ -32,125 +29,6 @@ import (
 		Мутабельность состояния сущности робота. State, его текуща точка в пространстве и тд. Пока отсутвует
 		возможность работать в многопоточном режиме.
 */
-
-type Point struct {
-	x int32
-	y int32
-}
-
-type Movement struct {
-	distance int32
-}
-
-type Angle int32
-
-func ParseTurn(angleText string) (*Turn, error) {
-	angleValue, err := strconv.Atoi(angleText)
-	if err != nil {
-		return nil, err
-	}
-	return &Turn{
-		Angle(int32(angleValue)),
-	}, nil
-}
-
-type Move struct {
-	Movement Movement
-}
-
-func ParseMove(distanceText string) (*Move, error) {
-	distance, err := strconv.Atoi(distanceText)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Move{
-		Movement: Movement{
-			distance: int32(distance),
-		},
-	}, nil
-}
-
-type Turn struct {
-	Angle Angle
-}
-
-type CleaningState interface {
-	Clean() string
-}
-
-func ParseCleaningState(stateText string) (CleaningState, error) {
-	switch stateText {
-	case "water":
-		return Water{}, nil
-	case "soap":
-		return Soap{}, nil
-	case "brush":
-		return Brush{}, nil
-	default:
-		return nil, errors.New("parse error")
-	}
-}
-
-type Water struct{}
-
-func (Water) Clean() string {
-	return "Clean with water"
-}
-
-type Soap struct{}
-
-func (Soap) Clean() string {
-	return "Clean with soap"
-}
-
-type Brush struct{}
-
-func (Brush) Clean() string {
-	return "Clean with brush"
-}
-
-type Robot interface {
-	Move(move Move)
-	Turn(turn Turn)
-	SetState(state CleaningState)
-	Start()
-	Stop()
-}
-
-type SweeperRobot struct {
-	currentLocation Point
-	state           CleaningState
-	angle           Angle
-}
-
-func (s *SweeperRobot) Move(move Move) {
-	angleRads := float64(s.angle) * (math.Pi / 180.0)
-	s.currentLocation = Point{
-		x: s.currentLocation.x + int32(float64(move.Movement.distance)*math.Cos(angleRads)),
-		y: s.currentLocation.y + int32(float64(move.Movement.distance)*math.Sin(angleRads)),
-	}
-	fmt.Println(s.currentLocation)
-}
-
-func (s *SweeperRobot) SetState(state CleaningState) {
-	s.state = state
-	fmt.Println(s.state.Clean())
-}
-
-func (s *SweeperRobot) Start() {
-	fmt.Sprintf("Started in location: ", s.currentLocation)
-	s.state.Clean()
-}
-
-func (s *SweeperRobot) Turn(turn Turn) {
-	s.angle += turn.Angle
-	fmt.Println(s.angle)
-}
-
-func (s *SweeperRobot) Stop() {
-	fmt.Println("Work stopped")
-}
 
 type RobotProgram struct {
 	Robot *SweeperRobot
