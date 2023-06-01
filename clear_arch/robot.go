@@ -5,6 +5,10 @@ import (
 	"math"
 )
 
+/*
+	Интерефейс робота, в рамках текущего демо проекта его реализацией SweeperRobot.
+	SweeperRobot в свою же очередь имеет зависомость RobotRepository.
+*/
 type Robot interface {
 	Move(move Move)
 	Turn(turn Turn)
@@ -13,13 +17,13 @@ type Robot interface {
 	Stop()
 }
 
-// RobotLocationRepository /* Реализовал stateless архитектуру через паттерн репозиторий
+// RobotRepository /* Реализовал stateless архитектуру через паттерн репозиторий
 /*
 	Убрал все состояния с реализации робота, теперь каждое состояние сохраняется и получается через слой
 	абстракции репозитория. Разницы нет что под имплементацией, это может быть как SQL база данных, или key-value
 	хранилища либо другие структуры данных.
 */
-type RobotLocationRepository interface {
+type RobotRepository interface {
 	saveRobotLocation(point Point)
 	getRobotLocation() Point
 	saveNewState(state CleaningState)
@@ -29,7 +33,7 @@ type RobotLocationRepository interface {
 }
 
 type SweeperRobot struct {
-	repo RobotLocationRepository
+	repo RobotRepository
 }
 
 func (s *SweeperRobot) Move(move Move) {
