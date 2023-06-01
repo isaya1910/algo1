@@ -6,8 +6,8 @@ import (
 )
 
 /*
-	Интерефейс робота, в рамках текущего демо проекта его реализацией SweeperRobot.
-	SweeperRobot в свою же очередь имеет зависомость RobotRepository.
+	Интерефейс робота, в рамках текущего демо проекта представлен его реализацией SweeperRobot.
+	SweeperRobot в свою же очередь имеет зависомость RobotRepository который также является интерфейсом.
 */
 type Robot interface {
 	Move(move Move)
