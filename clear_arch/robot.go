@@ -32,13 +32,28 @@ type RobotRepository interface {
 	saveAngle(angle Angle)
 }
 
+/*
+	Заменил interface RobotRepository на фунциональную иньекцию зависимостей
+*/
+type SaveRobotLocationFunc func(point Point)
+type GetRobotLocationFunc func() Point
+type SaveNewStateFunc func(state CleaningState)
+type GetStateFunc func() CleaningState
+type GetAngleFunc func() Angle
+type SaveAngleFunc func(angle Angle)
+
 type SweeperRobot struct {
-	repo RobotRepository
+	saveRobotLocation SaveRobotLocationFunc
+	getRobotLocation  GetRobotLocationFunc
+	saveNewState      SaveNewStateFunc
+	getState          GetStateFunc
+	getAngle          GetAngleFunc
+	saveAngle         SaveAngleFunc
 }
 
 func (s *SweeperRobot) Move(move Move) {
-	angleRads := float64(s.repo.getAngle()) * (math.Pi / 180.0)
-	repo := s.repo
+	angleRads := float64(s.getAngle()) * (math.Pi / 180.0)
+	repo := s
 	repo.saveRobotLocation(Point{
 		x: repo.getRobotLocation().x + int32(float64(move.Movement.distance)*math.Cos(angleRads)),
 		y: repo.getRobotLocation().y + int32(float64(move.Movement.distance)*math.Sin(angleRads)),
@@ -47,18 +62,18 @@ func (s *SweeperRobot) Move(move Move) {
 }
 
 func (s *SweeperRobot) SetState(state CleaningState) {
-	s.repo.saveNewState(state)
-	fmt.Println(s.repo.getState().Clean())
+	s.saveNewState(state)
+	fmt.Println(s.getState().Clean())
 }
 
 func (s *SweeperRobot) Start() {
-	fmt.Sprintf("Started in location: ", s.repo.getRobotLocation())
-	s.repo.getState().Clean()
+	fmt.Sprintf("Started in location: ", s.getRobotLocation())
+	s.getState().Clean()
 }
 
 func (s *SweeperRobot) Turn(turn Turn) {
-	s.repo.saveAngle(turn.Angle)
-	fmt.Println(s.repo.getAngle())
+	s.saveAngle(turn.Angle)
+	fmt.Println(s.getAngle())
 }
 
 func (s *SweeperRobot) Stop() {
