@@ -36,7 +36,7 @@ type RobotRepository interface {
 	Заменил interface RobotRepository на фунциональную иньекцию зависимостей
 */
 /*
-	Не смогу придумать заменить это одной
+	Не смог придумать заменить это одной
 */
 type SaveRobotLocationFunc func(point Point)
 type GetRobotLocationFunc func() Point
