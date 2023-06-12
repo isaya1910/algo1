@@ -29,6 +29,9 @@ import (
 		Мутабельность состояния сущности робота. State, его текуща точка в пространстве и тд. Пока отсутвует
 		возможность работать в многопоточном режиме.
 */
+/*
+	В моем случае переписать на Конкатенативный стиль было легко, просто поменять индексы массива
+*/
 
 type RobotProgram struct {
 	Robot *SweeperRobot
@@ -43,28 +46,28 @@ func (r RobotProgram) runCommands(commands []string) {
 			break
 		}
 
-		if parsedCommand[0] != "start" && parsedCommand[0] != "stop" && len(parsedCommand) != 2 {
+		if parsedCommand[1] != "start" && parsedCommand[1] != "stop" && len(parsedCommand) != 2 {
 			fmt.Println("invalid command")
 			break
 		}
 
 		switch parsedCommand[0] {
 		case "move":
-			move, err := ParseMove(parsedCommand[1])
+			move, err := ParseMove(parsedCommand[0])
 			if err != nil {
 				fmt.Println(err)
 				break
 			}
 			robot.Move(*move)
 		case "set":
-			state, err := ParseCleaningState(parsedCommand[1])
+			state, err := ParseCleaningState(parsedCommand[0])
 			if err != nil {
 				fmt.Println(err)
 				break
 			}
 			robot.SetState(state)
 		case "turn":
-			turn, err := ParseTurn(parsedCommand[1])
+			turn, err := ParseTurn(parsedCommand[0])
 			if err != nil {
 				fmt.Println(err)
 				break
